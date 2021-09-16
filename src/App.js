@@ -3,6 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { ProjectsProvider } from "./AppContext";
 import PageContainer from "./pages/PageContainer";
 
 const theme = createTheme();
@@ -12,7 +13,9 @@ export default function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <PageContainer />
+        <ProjectsProvider>
+          <PageContainer />
+        </ProjectsProvider>
       </ThemeProvider>
     </Router>
   );

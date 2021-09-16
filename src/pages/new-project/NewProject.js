@@ -6,24 +6,25 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
 
-const steps = [
-  "Select campaign settings",
-  "Create an ad group",
-  "Create an ad",
-];
+import ProjectForm from "./ProjectForm";
+import AssetsList from "./AssetsList";
 
-export default function PlaceOrder() {
+const steps = ["Create a Project", "Select the Assets", "Summary"];
+
+export default function NewProject() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
+  const [project, setProject] = React.useState({
+    name: "",
+    country: "",
+    description: "",
+  });
+  const [assets, setAssets] = React.useState([]);
 
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
-
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
-  };
+  const isStepOptional = (step) => step === 1;
+  const isStepSkipped = (step) => skipped.has(step);
 
   const handleNext = () => {
     let newSkipped = skipped;
@@ -59,8 +60,21 @@ export default function PlaceOrder() {
     setActiveStep(0);
   };
 
+  const getStepComponent = (step) => {
+    switch (step) {
+      case 0:
+        return <ProjectForm />;
+      case 1:
+        return <AssetsList assets={assets} setAssets={setAssets} />;
+      case 2:
+        return <div>Summary</div>;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{ width: "100%", bgcolor: "background.paper", p: 2 }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -81,18 +95,25 @@ export default function PlaceOrder() {
         })}
       </Stepper>
       {activeStep === steps.length ? (
-        <React.Fragment>
+        <>
           <Typography sx={{ mt: 2, mb: 1 }}>
             All steps completed - you&apos;re finished
           </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              pt: 2,
+            }}
+          >
             <Box sx={{ flex: "1 1 auto" }} />
             <Button onClick={handleReset}>Reset</Button>
           </Box>
-        </React.Fragment>
+        </>
       ) : (
-        <React.Fragment>
-          <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+        <>
+          {getStepComponent(activeStep)}
+          <Divider sx={{ mt: 2 }} />
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Button
               color="inherit"
@@ -113,7 +134,7 @@ export default function PlaceOrder() {
               {activeStep === steps.length - 1 ? "Finish" : "Next"}
             </Button>
           </Box>
-        </React.Fragment>
+        </>
       )}
     </Box>
   );

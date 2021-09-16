@@ -22,7 +22,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { MainListItems, secondaryListItems } from "./listItems";
 import Dashboard from "./dashboard/Dashboard";
-import PlaceOrder from "./place-order/PlaceOrder";
+import NewProject from "./new-project/NewProject";
 
 function Copyright(props) {
   return (
@@ -166,8 +166,8 @@ export default function PageContainer() {
             <Route exact path="/">
               <Dashboard />
             </Route>
-            <Route exact path="/place-order">
-              <PlaceOrder />
+            <Route exact path="/new-project">
+              <NewProject />
             </Route>
           </Switch>
           <Copyright sx={{ pt: 4 }} />

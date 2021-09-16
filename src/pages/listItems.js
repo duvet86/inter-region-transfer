@@ -1,4 +1,7 @@
 import React from "react";
+import { NavLink as RouterLink } from "react-router-dom";
+
+import { useTheme } from "@mui/material/styles";
 
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -9,44 +12,79 @@ import List from "@mui/material/List";
 import Fab from "@mui/material/Fab";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AddIcon from "@mui/icons-material/Add";
 
-export function MainListItems({ open }) {
+function ListItemLink({ icon, primary, to }) {
+  const theme = useTheme();
+
+  const renderLink = React.useMemo(
+    () =>
+      React.forwardRef(function Link(itemProps, ref) {
+        return (
+          <RouterLink
+            to={to}
+            ref={ref}
+            {...itemProps}
+            role={undefined}
+            activeStyle={{
+              fontWeight: "bold",
+              color: theme.palette.primary.dark,
+            }}
+          />
+        );
+      }),
+    [theme.palette.primary.dark, to]
+  );
+
+  return (
+    <ListItem button component={renderLink}>
+      {icon ? <ListItemIcon>{icon}</ListItemIcon> : null}
+      <ListItemText primary={primary} />
+    </ListItem>
+  );
+}
+
+export function MainListItems({ open, to }) {
   return (
     <List component="nav">
       <ListItem component="div">
         {open ? (
-          <Button variant="contained" startIcon={<AddIcon />}>
-            Place an Order
+          <Button
+            variant="contained"
+            startIcon={<AddIcon />}
+            component={RouterLink}
+            to="/new-project"
+          >
+            New Project
           </Button>
         ) : (
-          <Fab size="small" color="primary">
+          <Fab
+            size="small"
+            color="primary"
+            component={RouterLink}
+            to="/new-project"
+          >
             <AddIcon />
           </Fab>
         )}
       </ListItem>
+      <ListItemLink to="/" primary="Dashboard" icon={<DashboardIcon />} />
       <ListItem button>
         <ListItemIcon>
-          <DashboardIcon />
+          <WorkOutlineIcon />
         </ListItemIcon>
-        <ListItemText primary="Dashboard" />
+        <ListItemText primary="Projects" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
-          <ShoppingCartIcon />
+          <MonetizationOnIcon />
         </ListItemIcon>
-        <ListItemText primary="Orders" />
-      </ListItem>
-      <ListItem button>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Customers" />
+        <ListItemText primary="Assets" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>
@@ -85,7 +123,7 @@ export const secondaryListItems = (
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Current Date" />
     </ListItem>
   </>
 );
