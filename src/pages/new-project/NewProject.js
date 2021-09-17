@@ -1,73 +1,109 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 
+import { useProjectsUpdater } from "../../AppContext";
 import ProjectForm from "./ProjectForm";
+import DrillHolesGroups from "./DrillHolesGroups";
 import AssetsList from "./AssetsList";
+import Summary from "./Summary";
 
-const steps = ["Create a Project", "Select the Assets", "Summary"];
+const steps = [
+  "Create a Project",
+  "Add Drill Holes Group",
+  "Summary",
+  "Select the Products",
+];
 
 export default function NewProject() {
+  const history = useHistory();
+  const addProject = useProjectsUpdater();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
   const [project, setProject] = React.useState({
     name: "",
     country: "",
     description: "",
+    drillHolesGroups: [],
+    assets: [],
   });
-  const [assets, setAssets] = React.useState([]);
 
-  const isStepOptional = (step) => step === 1;
-  const isStepSkipped = (step) => skipped.has(step);
-
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
+  const handleNext = (step) => () => {
+    if (step === 1) {
+      setProject((prevState) => ({
+        ...prevState,
+        assets: [
+          {
+            name: "Act3",
+            quantity: 3,
+            from: "2021-09-10",
+            to: "2021-09-10",
+            location: "Canada",
+          },
+          {
+            name: "Sprint",
+            quantity: 10,
+            from: "2021-09-10",
+            to: "2021-09-10",
+            location: "USA",
+          },
+          {
+            name: "AMC GEL",
+            quantity: 1000,
+            from: "2021-09-10",
+            to: "2021-09-10",
+            location: "USA",
+          },
+        ],
+      }));
+    } else if (step === 2 || step === 3) {
+      addProject(project);
+      history.push("/");
+      return;
     }
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  const handleSkip = () => {
-    if (!isStepOptional(activeStep)) {
-      // You probably want to guard against something like this,
-      // it should never occur unless someone's actively trying to break something.
-      throw new Error("You can't skip a step that isn't optional.");
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped((prevSkipped) => {
-      const newSkipped = new Set(prevSkipped.values());
-      newSkipped.add(activeStep);
-      return newSkipped;
-    });
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
-
   const getStepComponent = (step) => {
     switch (step) {
       case 0:
-        return <ProjectForm />;
+        return <ProjectForm project={project} setProject={setProject} />;
       case 1:
-        return <AssetsList assets={assets} setAssets={setAssets} />;
+        return (
+          <DrillHolesGroups
+            drillHolesGroups={project.drillHolesGroups}
+            setProject={setProject}
+          />
+        );
       case 2:
-        return <div>Summary</div>;
+        return <Summary project={project} />;
+      case 3:
+        return <AssetsList assets={project.assets} setProject={setProject} />;
+      default:
+        return null;
+    }
+  };
+
+  const getLabel = (step) => {
+    switch (step) {
+      case 0:
+        return "Next";
+      case 1:
+        return "Generate Resources";
+      case 2:
+        return "Finish";
+      case 3:
+        return "Finish";
       default:
         return null;
     }
@@ -79,14 +115,7 @@ export default function NewProject() {
         {steps.map((label, index) => {
           const stepProps = {};
           const labelProps = {};
-          if (isStepOptional(index)) {
-            labelProps.optional = (
-              <Typography variant="caption">Optional</Typography>
-            );
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
+
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -94,48 +123,29 @@ export default function NewProject() {
           );
         })}
       </Stepper>
-      {activeStep === steps.length ? (
-        <>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              pt: 2,
-            }}
+      <>
+        {getStepComponent(activeStep)}
+        <Divider sx={{ mt: 2 }} />
+        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+          <Button
+            color="inherit"
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ mr: 1 }}
           >
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      ) : (
-        <>
-          {getStepComponent(activeStep)}
-          <Divider sx={{ mt: 2 }} />
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
-              Back
+            Back
+          </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
+          {activeStep === steps.length - 2 && (
+            <Button sx={{ mr: 2 }} onClick={handleNext()}>
+              Edit Products
             </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
-
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box>
-        </>
-      )}
+          )}
+          <Button onClick={handleNext(activeStep)} variant="contained">
+            {getLabel(activeStep)}
+          </Button>
+        </Box>
+      </>
     </Box>
   );
 }

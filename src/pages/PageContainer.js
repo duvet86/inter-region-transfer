@@ -121,7 +121,7 @@ export default function PageContainer() {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            HUB Drilling Projects
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">

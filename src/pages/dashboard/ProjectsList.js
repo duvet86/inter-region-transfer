@@ -21,8 +21,17 @@ function Row({ row }) {
 
   return (
     <>
-      <TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-        <TableCell>
+      <TableRow
+        sx={{
+          bgcolor: open && "#eee",
+        }}
+      >
+        <TableCell component="th" scope="row">
+          {row.name}
+        </TableCell>
+        <TableCell align="right">{row.country}</TableCell>
+        <TableCell align="right">{row.description}</TableCell>
+        <TableCell align="right">
           <IconButton
             aria-label="expand row"
             size="small"
@@ -31,18 +40,13 @@ function Row({ row }) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.name}
-        </TableCell>
-        <TableCell align="right">{row.country}</TableCell>
-        <TableCell align="right">{row.description}</TableCell>
       </TableRow>
-      <TableRow sx={{ "&:last-child td": { border: 0 } }}>
+      <TableRow sx={{ bgcolor: open && "#eee" }}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                Assets
+                Products
               </Typography>
               <Table size="small">
                 <TableHead>
@@ -56,7 +60,10 @@ function Row({ row }) {
                 </TableHead>
                 <TableBody>
                   {row.assets.map((asset, index) => (
-                    <TableRow key={index}>
+                    <TableRow
+                      key={index}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
                       <TableCell>{asset.name}</TableCell>
                       <TableCell>{asset.quantity}</TableCell>
                       <TableCell align="right">{asset.from}</TableCell>
@@ -83,10 +90,10 @@ export default function CollapsibleTable() {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell />
             <TableCell>Name</TableCell>
             <TableCell align="right">Country</TableCell>
             <TableCell align="right">Description</TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>

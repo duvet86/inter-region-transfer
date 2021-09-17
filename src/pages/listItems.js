@@ -84,7 +84,7 @@ export function MainListItems({ open, to }) {
         <ListItemIcon>
           <MonetizationOnIcon />
         </ListItemIcon>
-        <ListItemText primary="Assets" />
+        <ListItemText primary="Products" />
       </ListItem>
       <ListItem button>
         <ListItemIcon>

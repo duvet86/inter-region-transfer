@@ -13,15 +13,17 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const top100Films = [
-  "The Shawshank Redemption",
-  "The Godfather",
-  "The Godfather: Part II",
-  "The Dark Knight",
-  "12 Angry Men",
-  "Schindler's List",
-  "Pulp Fiction",
-  "The Lord of the Rings: The Return of the King",
+const assetsList = [
+  "Act3",
+  "Sprint",
+  "EzyTrac",
+  "EzyGiro",
+  "AMC TORQUE",
+  "GUARD",
+  "AMC EZEE DRILL",
+  "AMC CR 650",
+  "AMC GEL",
+  "AMC ROD GREASE XTRA TACKY",
 ];
 
 export default function AssetsFormDialog({ open, handleClose }) {
@@ -77,7 +79,7 @@ export default function AssetsFormDialog({ open, handleClose }) {
           color: "common.white",
         }}
       >
-        Add Asset
+        Add Product
       </DialogTitle>
       <DialogContent>
         <Box
@@ -89,9 +91,9 @@ export default function AssetsFormDialog({ open, handleClose }) {
             value={asset.name}
             onChange={handleChangeAssetName}
             disablePortal
-            options={top100Films}
+            options={assetsList}
             renderInput={(params) => (
-              <TextField {...params} label="Asset Name" />
+              <TextField {...params} label="Product Name" />
             )}
             sx={{ mb: 2 }}
           />

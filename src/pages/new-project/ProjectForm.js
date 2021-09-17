@@ -7,11 +7,26 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-export default function ProjectForm() {
-  const [country, setCountry] = React.useState("");
+export default function ProjectForm({ project, setProject }) {
+  const handleNameChange = (event) => {
+    setProject((prevState) => ({
+      ...prevState,
+      name: event.target.value,
+    }));
+  };
 
-  const handleChange = (event) => {
-    setCountry(event.target.value);
+  const handleCountryChange = (event) => {
+    setProject((prevState) => ({
+      ...prevState,
+      country: event.target.value,
+    }));
+  };
+
+  const handleDescriptionChange = (event) => {
+    setProject((prevState) => ({
+      ...prevState,
+      description: event.target.value,
+    }));
   };
 
   return (
@@ -25,14 +40,16 @@ export default function ProjectForm() {
         label="Project Name"
         variant="outlined"
         sx={{ mb: 2 }}
+        value={project.name}
+        onChange={handleNameChange}
       />
       <FormControl fullWidth sx={{ mb: 2 }}>
         <InputLabel id="country">Country</InputLabel>
         <Select
           labelId="country"
-          value={country}
           label="Country"
-          onChange={handleChange}
+          value={project.country}
+          onChange={handleCountryChange}
         >
           <MenuItem value="USA">USA</MenuItem>
           <MenuItem value="canada">Canada</MenuItem>
@@ -46,6 +63,8 @@ export default function ProjectForm() {
         multiline
         rows={4}
         sx={{ mb: 2 }}
+        value={project.description}
+        onChange={handleDescriptionChange}
       />
     </Box>
   );

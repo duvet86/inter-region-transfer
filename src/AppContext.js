@@ -8,14 +8,70 @@ function ProjectsProvider(props) {
     {
       name: "Project 1",
       country: "Australia",
-      description: "Important Project",
+      description: "First project",
       assets: [
         {
-          name: "DR304",
+          name: "Act3",
           quantity: 3,
-          from: "1/1/2015",
-          to: "1/6/2015",
+          from: "2021-09-10",
+          to: "2021-09-10",
           location: "Canada",
+        },
+        {
+          name: "Sprint",
+          quantity: 10,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "USA",
+        },
+      ],
+    },
+    {
+      name: "Important Project",
+      country: "USA",
+      description: "Very important project",
+      assets: [
+        {
+          name: "Act3",
+          quantity: 3,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "Canada",
+        },
+        {
+          name: "Sprint",
+          quantity: 10,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "USA",
+        },
+        {
+          name: "EzyTrac",
+          quantity: 10,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "USA",
+        },
+        {
+          name: "EzyGiro",
+          quantity: 10,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "USA",
+        },
+      ],
+    },
+    {
+      name: "Winning Project",
+      country: "Balcatta",
+      description: "Give me the prize",
+      assets: [
+        {
+          name: "DA MONEY",
+          quantity: 500,
+          from: "2021-09-10",
+          to: "2021-09-10",
+          location: "Balcatta",
         },
       ],
     },
@@ -47,12 +103,14 @@ function useProjectsUpdater() {
     );
   }
 
-  const increment = React.useCallback(
-    () => (newProj) => setProjects((prevState) => [...prevState, newProj]),
+  const addProject = React.useMemo(
+    () => (newProj) => {
+      setProjects((prevState) => [...prevState, newProj]);
+    },
     [setProjects]
   );
 
-  return increment;
+  return addProject;
 }
 
 export { ProjectsProvider, useProjectsState, useProjectsUpdater };

@@ -12,20 +12,20 @@ import Box from "@mui/system/Box";
 
 import AddIcon from "@mui/icons-material/Add";
 
-import AssetsFormDialog from "./AssetsFormDialog";
+import DrillHolesGroupForm from "./DrillHolesGroupForm";
 
-export default function AssetsList({ assets, setProject }) {
+export default function DrillHolesGroups({ drillHolesGroups, setProject }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = (newAsset) => () => {
-    if (newAsset) {
+  const handleClose = (newGroup) => () => {
+    if (newGroup) {
       setProject((prevState) => ({
         ...prevState,
-        assets: [...prevState.assets, newAsset],
+        drillHolesGroups: [...prevState.drillHolesGroups, newGroup],
       }));
     }
     setOpen(false);
@@ -37,34 +37,32 @@ export default function AssetsList({ assets, setProject }) {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Product Name</TableCell>
-              <TableCell align="right">Quantity</TableCell>
+              <TableCell>Group Name</TableCell>
+              <TableCell align="right">Number of Rigs</TableCell>
               <TableCell align="right">From</TableCell>
               <TableCell align="right">To</TableCell>
-              <TableCell align="right">Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {assets.map((row, index) => (
+            {drillHolesGroups.map((row) => (
               <TableRow
-                key={index}
+                key={row.name}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   {row.name}
                 </TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell align="right">{row.rigs}</TableCell>
                 <TableCell align="right">{row.from}</TableCell>
                 <TableCell align="right">{row.to}</TableCell>
-                <TableCell align="right">{row.location}</TableCell>
               </TableRow>
             ))}
-            {assets.length === 0 && (
+            {drillHolesGroups.length === 0 && (
               <TableRow
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row" rowSpan="5">
-                  No Products
+                  No Groups
                 </TableCell>
               </TableRow>
             )}
@@ -78,11 +76,11 @@ export default function AssetsList({ assets, setProject }) {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            Add an Asset
+            Add an Group
           </Button>
         </Box>
       )}
-      {open && <AssetsFormDialog open={open} handleClose={handleClose} />}
+      {open && <DrillHolesGroupForm open={open} handleClose={handleClose} />}
     </>
   );
 }
