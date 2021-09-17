@@ -168,13 +168,13 @@ export default function PageContainer() {
         <Toolbar />
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/inter-region-transfer">
               <Dashboard />
             </Route>
-            <Route exact path="/projects">
+            <Route exact path="/inter-region-transfer/projects">
               <ProjectsList />
             </Route>
-            <Route exact path="/new-project">
+            <Route exact path="/inter-region-transfer/new-project">
               <NewProject />
             </Route>
           </Switch>

@@ -58,7 +58,7 @@ export function MainListItems({ open, to }) {
             variant="contained"
             startIcon={<AddIcon />}
             component={RouterLink}
-            to="/new-project"
+            to="/inter-region-transfer/new-project"
           >
             New Project
           </Button>
@@ -67,15 +67,19 @@ export function MainListItems({ open, to }) {
             size="small"
             color="primary"
             component={RouterLink}
-            to="/new-project"
+            to="/inter-region-transfer/new-project"
           >
             <AddIcon />
           </Fab>
         )}
       </ListItem>
-      <ListItemLink to="/" primary="Dashboard" icon={<DashboardIcon />} />
       <ListItemLink
-        to="/projects"
+        to="/inter-region-transfer"
+        primary="Dashboard"
+        icon={<DashboardIcon />}
+      />
+      <ListItemLink
+        to="/inter-region-transfer/projects"
         primary="Projects"
         icon={<WorkOutlineIcon />}
       />
