@@ -76,7 +76,7 @@ export default function DrillHolesGroups({ drillHolesGroups, setProject }) {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            Add an Group
+            Add a Group
           </Button>
         </Box>
       )}

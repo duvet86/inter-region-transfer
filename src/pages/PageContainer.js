@@ -23,6 +23,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MainListItems, secondaryListItems } from "./listItems";
 import Dashboard from "./dashboard/Dashboard";
 import NewProject from "./new-project/NewProject";
+import ProjectsList from "./projects/ProjectsList";
+
+import logo from "./logo.png";
 
 function Copyright(props) {
   return (
@@ -100,6 +103,7 @@ export default function PageContainer() {
         <Toolbar
           sx={{
             pr: "24px", // keep right padding when drawer closed
+            bgcolor: "common.black",
           }}
         >
           <IconButton
@@ -114,12 +118,13 @@ export default function PageContainer() {
           >
             <MenuIcon />
           </IconButton>
+          <img src={logo} height={64} />
           <Typography
             component="h1"
             variant="h6"
             color="inherit"
             noWrap
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, ml: 2 }}
           >
             HUB Drilling Projects
           </Typography>
@@ -165,6 +170,9 @@ export default function PageContainer() {
           <Switch>
             <Route exact path="/">
               <Dashboard />
+            </Route>
+            <Route exact path="/projects">
+              <ProjectsList />
             </Route>
             <Route exact path="/new-project">
               <NewProject />

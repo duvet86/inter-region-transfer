@@ -74,12 +74,11 @@ export function MainListItems({ open, to }) {
         )}
       </ListItem>
       <ListItemLink to="/" primary="Dashboard" icon={<DashboardIcon />} />
-      <ListItem button>
-        <ListItemIcon>
-          <WorkOutlineIcon />
-        </ListItemIcon>
-        <ListItemText primary="Projects" />
-      </ListItem>
+      <ListItemLink
+        to="/projects"
+        primary="Projects"
+        icon={<WorkOutlineIcon />}
+      />
       <ListItem button>
         <ListItemIcon>
           <MonetizationOnIcon />
